@@ -61,6 +61,9 @@ public class MapEngine {
   public void showInfoCountry() {
     // Print to ask for the country name
     MessageCli.INSERT_COUNTRY.printMessage();
+
+    // Read the input from the user until it gets a valid input
+
   }
 
   /** this method is invoked when the user run the command route. */
