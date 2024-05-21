@@ -101,7 +101,6 @@ public class MapEngine {
    * @return the country with the inputed name if is a validCountry.
    */
   public Country validCountry(String inputName) {
-    String originalName = inputName;
     inputName = Utils.capitalizeFirstLetterOfEachWord(inputName);
 
     // Find if there is a valid country
@@ -112,6 +111,6 @@ public class MapEngine {
     }
 
     // throw exception when it's invalid
-    throw new InvalidCountryException(originalName);
+    throw new InvalidCountryException(inputName);
   }
 }
