@@ -2,12 +2,12 @@ package nz.ac.auckland.se281;
 
 public class Country {
   private String name;
-  private String contenent;
+  private String continent;
   private int taxFee;
 
-  public Country(String name, String contenent, String taxFee) {
+  public Country(String name, String continent, String taxFee) {
     this.name = name;
-    this.contenent = contenent;
+    this.continent = continent;
     this.taxFee = Integer.parseInt(taxFee);
   }
 
@@ -15,8 +15,8 @@ public class Country {
     return name;
   }
 
-  public String getContenent() {
-    return contenent;
+  public String getContinent() {
+    return continent;
   }
 
   public int getTaxFee() {
