@@ -59,13 +59,37 @@ public class MapEngine {
 
   /** this method is invoked when the user run the command info-country. */
   public void showInfoCountry() {
-    // Print to ask for the country name
-    MessageCli.INSERT_COUNTRY.printMessage();
-
     // Read the input from the user until it gets a valid input
+    Boolean isValid = false;
+    String userInput;
+    Country userCountry;
 
+    while (!isValid) {
+      // Print to ask for the country name
+      MessageCli.INSERT_COUNTRY.printMessage();
+
+      // Scans the input from the user
+      userInput = Utils.scanner.nextLine();
+
+      isValid = true;
+    }
   }
 
   /** this method is invoked when the user run the command route. */
   public void showRoute() {}
+
+  public Country validCountry(String inputName) {
+    String originalName = inputName;
+    inputName = Utils.capitalizeFirstLetterOfEachWord(inputName);
+
+    // Find if there is a valid country
+    for (Country country : countriesSet) {
+      if (inputName.equals(country.getName())) {
+        return country;
+      }
+    }
+
+    // throw exception when it's invalid
+    throw new InvalidCountryException(originalName);
+  }
 }
