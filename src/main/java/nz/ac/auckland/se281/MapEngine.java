@@ -1,8 +1,8 @@
 package nz.ac.auckland.se281;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -35,7 +35,7 @@ public class MapEngine {
       String[] parts = line.split(",");
 
       // Making the List of values for each key
-      List<Country> countriesValues = new ArrayList<>();
+      List<Country> countriesValues = new LinkedList<>();
       for (int i = 1; i < parts.length; i++) {
         for (Country country : countriesSet) {
           if (parts[i].equals(country.getName())) {
@@ -90,7 +90,53 @@ public class MapEngine {
   }
 
   /** this method is invoked when the user run the command route. */
-  public void showRoute() {}
+  public void showRoute() {
+    // Read the input from the user until it gets a valid input for start of journey
+    Boolean isStartValid = false;
+    String userStartInput;
+    Country userStartCountry = null;
+
+    while (!isStartValid) {
+      // Print to ask for the country name
+      MessageCli.INSERT_SOURCE.printMessage();
+
+      // Scans the input from the user
+      userStartInput = Utils.scanner.nextLine();
+
+      // by using try and catch determine if the input is correct or not
+      try {
+        userStartCountry = validCountry(userStartInput);
+        isStartValid = true;
+        break;
+      } catch (InvalidCountryException e) {
+        String invalidName = e.getCountryName();
+        MessageCli.INVALID_COUNTRY.printMessage(invalidName);
+      }
+    }
+
+    // Read the input from the user until it gets a valid input for end of journey
+    Boolean isEndValid = false;
+    String userEndInput;
+    Country userEndCountry = null;
+
+    while (!isEndValid) {
+      // Print to ask for the country name
+      MessageCli.INSERT_DESTINATION.printMessage();
+
+      // Scans the input from the user
+      userEndInput = Utils.scanner.nextLine();
+
+      // by using try and catch determine if the input is correct or not
+      try {
+        userEndCountry = validCountry(userEndInput);
+        isEndValid = true;
+        break;
+      } catch (InvalidCountryException e) {
+        String invalidName = e.getCountryName();
+        MessageCli.INVALID_COUNTRY.printMessage(invalidName);
+      }
+    }
+  }
 
   /**
    * this method is called from showInfoCountry method. This method will check if the inputed string
