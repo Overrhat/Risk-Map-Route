@@ -136,6 +136,12 @@ public class MapEngine {
         MessageCli.INVALID_COUNTRY.printMessage(invalidName);
       }
     }
+
+    // If the user inputs the equal country for the both inputs
+    if (userStartCountry.equals(userEndCountry)) {
+      MessageCli.NO_CROSSBORDER_TRAVEL.printMessage();
+      return;
+    }
   }
 
   /**
