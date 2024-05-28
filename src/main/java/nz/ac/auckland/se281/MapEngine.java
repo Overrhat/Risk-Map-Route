@@ -206,6 +206,17 @@ public class MapEngine {
       countryNamesString = countryNamesString + countryNames.get(i) + ", ";
     }
     MessageCli.ROUTE_INFO.printMessage(countryNamesString);
+
+    // Print the continents visited
+    String continentsNamesString = "[";
+    for (int i = 0; i < continentsVisited.size(); i++) {
+      if (i == continentsVisited.size() - 1) {
+        continentsNamesString = continentsNamesString + continentsVisited.get(i) + "]";
+        break;
+      }
+      continentsNamesString = continentsNamesString + continentsVisited.get(i) + ", ";
+    }
+    MessageCli.CONTINENT_INFO.printMessage(continentsNamesString);
   }
 
   /**
