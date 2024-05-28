@@ -217,6 +217,9 @@ public class MapEngine {
       continentsNamesString = continentsNamesString + continentsVisited.get(i) + ", ";
     }
     MessageCli.CONTINENT_INFO.printMessage(continentsNamesString);
+
+    // Print the total cross-border taxes to pay
+    MessageCli.TAX_INFO.printMessage(Integer.toString(totalTax));
   }
 
   /**
