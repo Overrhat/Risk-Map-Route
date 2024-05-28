@@ -1,10 +1,12 @@
 package nz.ac.auckland.se281;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 
 /** This class is the main entry point. */
@@ -141,6 +143,52 @@ public class MapEngine {
     if (userStartCountry.equals(userEndCountry)) {
       MessageCli.NO_CROSSBORDER_TRAVEL.printMessage();
       return;
+    }
+
+    // Use BFS to find the shortest path from userStartCountry to userEndCountry
+    Map<Country, Country> parentMap = new HashMap<>();
+    Queue<Country> queue = new LinkedList<>();
+    Set<Country> visited = new HashSet<>();
+
+    queue.add(userStartCountry);
+    visited.add(userStartCountry);
+    parentMap.put(userStartCountry, null);
+
+    while (!queue.isEmpty()) {
+      Country current = queue.poll();
+      if (current.equals(userEndCountry)) {
+        break;
+      }
+      for (Country neighbor : adjacenciesMap.get(current)) {
+        if (!visited.contains(neighbor)) {
+          visited.add(neighbor);
+          parentMap.put(neighbor, current);
+          queue.add(neighbor);
+        }
+      }
+    }
+
+    // Reconstruct the path from userStartCountry to userEndCountry
+    LinkedList<Country> path = new LinkedList<>();
+    Country step = userEndCountry;
+    while (step != null) {
+      path.addFirst(step);
+      step = parentMap.get(step);
+    }
+
+    // Calculate the total tax and the continents visited
+    int totalTax = 0;
+    List<String> continentsVisited = new ArrayList<>();
+    String lastContinent = null;
+    for (Country country : path) {
+      String currentContinent = country.getContinent();
+      if (!currentContinent.equals(lastContinent)) {
+        continentsVisited.add(currentContinent);
+        lastContinent = currentContinent;
+      }
+      if (!country.equals(userStartCountry)) {
+        totalTax += country.getTaxFee();
+      }
     }
   }
 
