@@ -190,6 +190,10 @@ public class MapEngine {
         totalTax += country.getTaxFee();
       }
     }
+
+    // HardCode printing the route to check if printing works well
+    String printingTest = "[India, Siam]";
+    MessageCli.ROUTE_INFO.printMessage(printingTest);
   }
 
   /**
