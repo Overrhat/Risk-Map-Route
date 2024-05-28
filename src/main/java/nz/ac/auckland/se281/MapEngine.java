@@ -191,9 +191,21 @@ public class MapEngine {
       }
     }
 
-    // HardCode printing the route to check if printing works well
-    String printingTest = "[India, Siam]";
-    MessageCli.ROUTE_INFO.printMessage(printingTest);
+    // Print the path
+    List<String> countryNames = new LinkedList<>();
+    for (Country country : path) {
+      countryNames.add(country.getName());
+    }
+
+    String countryNamesString = "[";
+    for (int i = 0; i < countryNames.size(); i++) {
+      if (i == countryNames.size() - 1) {
+        countryNamesString = countryNamesString + countryNames.get(i) + "]";
+        break;
+      }
+      countryNamesString = countryNamesString + countryNames.get(i) + ", ";
+    }
+    MessageCli.ROUTE_INFO.printMessage(countryNamesString);
   }
 
   /**
