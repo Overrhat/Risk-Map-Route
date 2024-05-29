@@ -1,8 +1,10 @@
 package nz.ac.auckland.se281;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +19,7 @@ public class MapEngine {
   public MapEngine() {
     // add other code here if you want
     this.countriesSet = new HashSet<>();
-    this.adjacenciesMap = new HashMap<>();
+    this.adjacenciesMap = new LinkedHashMap<>();
     loadMap(); // keep this mehtod invocation
   }
 
@@ -76,7 +78,6 @@ public class MapEngine {
       // by using try and catch determine if the input is correct or not
       try {
         userCountry = validCountry(userInput);
-        isValid = true;
         break;
       } catch (InvalidCountryException e) {
         String invalidName = e.getCountryName();
@@ -108,7 +109,6 @@ public class MapEngine {
       // by using try and catch determine if the input is correct or not
       try {
         userStartCountry = validCountry(userStartInput);
-        isStartValid = true;
         break;
       } catch (InvalidCountryException e) {
         String invalidName = e.getCountryName();
@@ -131,7 +131,6 @@ public class MapEngine {
       // by using try and catch determine if the input is correct or not
       try {
         userEndCountry = validCountry(userEndInput);
-        isEndValid = true;
         break;
       } catch (InvalidCountryException e) {
         String invalidName = e.getCountryName();
@@ -149,6 +148,7 @@ public class MapEngine {
     Map<Country, Country> parentMap = new HashMap<>();
     Queue<Country> queue = new LinkedList<>();
     Set<Country> visited = new HashSet<>();
+    LinkedList<Country> path = new LinkedList<>();
 
     queue.add(userStartCountry);
     visited.add(userStartCountry);
@@ -157,6 +157,13 @@ public class MapEngine {
     while (!queue.isEmpty()) {
       Country current = queue.poll();
       if (current.equals(userEndCountry)) {
+        // Reconstruct the path from userStartCountry to userEndCountry
+
+        Country step = userEndCountry;
+        while (step != null) {
+          path.addFirst(step);
+          step = parentMap.get(step);
+        }
         break;
       }
       for (Country neighbor : adjacenciesMap.get(current)) {
@@ -166,14 +173,6 @@ public class MapEngine {
           queue.add(neighbor);
         }
       }
-    }
-
-    // Reconstruct the path from userStartCountry to userEndCountry
-    LinkedList<Country> path = new LinkedList<>();
-    Country step = userEndCountry;
-    while (step != null) {
-      path.addFirst(step);
-      step = parentMap.get(step);
     }
 
     // Calculate the total tax and the continents visited
@@ -192,20 +191,12 @@ public class MapEngine {
     }
 
     // Print the path
-    List<String> countryNames = new LinkedList<>();
-    for (Country country : path) {
-      countryNames.add(country.getName());
+    String[] countryNames = new String[path.size()];
+    for (int i = 0; i < path.size(); i++) {
+      countryNames[i] = path.get(i).getName();
     }
-
-    String countryNamesString = "[";
-    for (int i = 0; i < countryNames.size(); i++) {
-      if (i == countryNames.size() - 1) {
-        countryNamesString = countryNamesString + countryNames.get(i) + "]";
-        break;
-      }
-      countryNamesString = countryNamesString + countryNames.get(i) + ", ";
-    }
-    MessageCli.ROUTE_INFO.printMessage(countryNamesString);
+    // Use array to print the path
+    MessageCli.ROUTE_INFO.printMessage(Arrays.toString(countryNames));
 
     // Print the continents visited
     String continentsNamesString = "[";
