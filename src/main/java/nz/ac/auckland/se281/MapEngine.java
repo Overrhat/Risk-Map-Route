@@ -67,27 +67,11 @@ public class MapEngine {
 
   /** this method is invoked when the user run the command info-country. */
   public void showInfoCountry() {
-    // Read the input from the user until it gets a valid input
-    Boolean isValid = false;
-    String userInput;
-    Country userCountry = null;
+    // Print to ask for the country name
+    MessageCli.INSERT_COUNTRY.printMessage();
 
-    while (!isValid) {
-      // Print to ask for the country name
-      MessageCli.INSERT_COUNTRY.printMessage();
-
-      // Scans the input from the user
-      userInput = Utils.scanner.nextLine();
-
-      // by using try and catch determine if the input is correct or not
-      try {
-        userCountry = validCountryCheck(userInput);
-        break;
-      } catch (InvalidCountryException e) {
-        String invalidName = e.getCountryName();
-        MessageCli.INVALID_COUNTRY.printMessage(invalidName);
-      }
-    }
+    // calling getValidCountryFromUser method to get a valid input
+    Country userCountry = getValidCountryFromUser();
 
     // After having the valid input of country print the info
     String countryName = userCountry.getName();
@@ -98,49 +82,17 @@ public class MapEngine {
 
   /** this method is invoked when the user run the command route. */
   public void showRoute() {
-    // Read the input from the user until it gets a valid input for start of journey
-    Boolean isStartValid = false;
-    String userStartInput;
-    Country userStartCountry = null;
+    // Print to ask for the country name for source
+    MessageCli.INSERT_SOURCE.printMessage();
 
-    while (!isStartValid) {
-      // Print to ask for the country name
-      MessageCli.INSERT_SOURCE.printMessage();
+    // calling getValidCountryFromUser method to get a valid input for source
+    Country userStartCountry = getValidCountryFromUser();
 
-      // Scans the input from the user
-      userStartInput = Utils.scanner.nextLine();
+    // Print to ask for the country name for destination
+    MessageCli.INSERT_DESTINATION.printMessage();
 
-      // by using try and catch determine if the input is correct or not
-      try {
-        userStartCountry = validCountryCheck(userStartInput);
-        break;
-      } catch (InvalidCountryException e) {
-        String invalidName = e.getCountryName();
-        MessageCli.INVALID_COUNTRY.printMessage(invalidName);
-      }
-    }
-
-    // Read the input from the user until it gets a valid input for end of journey
-    Boolean isEndValid = false;
-    String userEndInput;
-    Country userEndCountry = null;
-
-    while (!isEndValid) {
-      // Print to ask for the country name
-      MessageCli.INSERT_DESTINATION.printMessage();
-
-      // Scans the input from the user
-      userEndInput = Utils.scanner.nextLine();
-
-      // by using try and catch determine if the input is correct or not
-      try {
-        userEndCountry = validCountryCheck(userEndInput);
-        break;
-      } catch (InvalidCountryException e) {
-        String invalidName = e.getCountryName();
-        MessageCli.INVALID_COUNTRY.printMessage(invalidName);
-      }
-    }
+    // calling getValidCountryFromUser method to get a valid input for destination
+    Country userEndCountry = getValidCountryFromUser();
 
     // If the user inputs the equal country for the both inputs
     if (userStartCountry.equals(userEndCountry)) {
@@ -238,5 +190,33 @@ public class MapEngine {
 
     // throw exception when it's invalid
     throw new InvalidCountryException(inputName);
+  }
+
+  /**
+   * This method returns a country if the input is valid or throws an InvalidCountryException when
+   * the input is invalid. It repeats asking for the input until the input is valid.
+   *
+   * @return the country that is equivalent to the user's input when it's valid.
+   */
+  private Country getValidCountryFromUser() {
+    Boolean isValid = false;
+    String userInput;
+    Country userCountry = null;
+
+    while (!isValid) {
+      // Scans the input from the user
+      userInput = Utils.scanner.nextLine();
+
+      // by using try and catch determine if the input is correct or not
+      try {
+        userCountry = validCountryCheck(userInput);
+        isValid = true;
+      } catch (InvalidCountryException e) {
+        String invalidName = e.getCountryName();
+        MessageCli.INVALID_COUNTRY.printMessage(invalidName);
+      }
+    }
+
+    return userCountry;
   }
 }
