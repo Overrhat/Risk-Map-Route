@@ -77,7 +77,7 @@ public class MapEngine {
 
       // by using try and catch determine if the input is correct or not
       try {
-        userCountry = validCountry(userInput);
+        userCountry = validCountryCheck(userInput);
         break;
       } catch (InvalidCountryException e) {
         String invalidName = e.getCountryName();
@@ -108,7 +108,7 @@ public class MapEngine {
 
       // by using try and catch determine if the input is correct or not
       try {
-        userStartCountry = validCountry(userStartInput);
+        userStartCountry = validCountryCheck(userStartInput);
         break;
       } catch (InvalidCountryException e) {
         String invalidName = e.getCountryName();
@@ -130,7 +130,7 @@ public class MapEngine {
 
       // by using try and catch determine if the input is correct or not
       try {
-        userEndCountry = validCountry(userEndInput);
+        userEndCountry = validCountryCheck(userEndInput);
         break;
       } catch (InvalidCountryException e) {
         String invalidName = e.getCountryName();
@@ -222,7 +222,7 @@ public class MapEngine {
    * @param inputName inputName is a string which is the name of the country that user inputs.
    * @return the country with the inputed name if is a validCountry.
    */
-  public Country validCountry(String inputName) {
+  public Country validCountryCheck(String inputName) {
     inputName = Utils.capitalizeFirstLetterOfEachWord(inputName);
 
     // Find if there is a valid country
