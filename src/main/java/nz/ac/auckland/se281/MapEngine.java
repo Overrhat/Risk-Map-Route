@@ -199,15 +199,16 @@ public class MapEngine {
     MessageCli.ROUTE_INFO.printMessage(Arrays.toString(countryNames));
 
     // Print the continents visited
-    String continentsNamesString = "[";
+    StringBuilder continentsNamesBuilder = new StringBuilder("[");
     for (int i = 0; i < continentsVisited.size(); i++) {
-      if (i == continentsVisited.size() - 1) {
-        continentsNamesString = continentsNamesString + continentsVisited.get(i) + "]";
-        break;
+      continentsNamesBuilder.append(continentsVisited.get(i));
+      if (i != continentsVisited.size() - 1) {
+        continentsNamesBuilder.append(", ");
+      } else {
+        continentsNamesBuilder.append("]");
       }
-      continentsNamesString = continentsNamesString + continentsVisited.get(i) + ", ";
     }
-    MessageCli.CONTINENT_INFO.printMessage(continentsNamesString);
+    MessageCli.CONTINENT_INFO.printMessage(continentsNamesBuilder.toString());
 
     // Print the total cross-border taxes to pay
     MessageCli.TAX_INFO.printMessage(Integer.toString(totalTax));
