@@ -16,6 +16,10 @@ public class MapEngine {
   private Set<Country> countriesSet;
   private Map<Country, List<Country>> adjacenciesMap;
 
+  /**
+   * Class constructor for the MapEngine class. Initialize the instance and load the Map by calling
+   * loadMap method.
+   */
   public MapEngine() {
     // add other code here if you want
     this.countriesSet = new HashSet<>();
